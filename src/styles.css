@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  .dark {
+    color-scheme: dark;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scrollbar-color: #000000 #FFFFFF;
+    scrollbar-width: thin;
+  }
+
+  .dark {
+    scrollbar-color: #FFFFFF #000000;
+  }
+
+  ::-webkit-scrollbar {
+    width: 16px;
+    height: 16px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #FFFFFF;
+    border-left: 3px solid #000000;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #000000;
+    border: 3px solid #FFFFFF;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #0000FF;
+  }
+
+  .dark ::-webkit-scrollbar-track {
+    background: #000000;
+    border-left-color: #FFFFFF;
+  }
+
+  .dark ::-webkit-scrollbar-thumb {
+    background: #FFFFFF;
+    border-color: #000000;
+  }
+
+  body {
+    @apply m-0 bg-white font-sans text-base leading-relaxed text-black dark:bg-black dark:text-white;
+  }
+
+  a {
+    @apply text-raw-blue underline decoration-2 underline-offset-4;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-headline font-normal uppercase tracking-normal;
+  }
+
+  h1 {
+    @apply text-[42px] leading-none sm:text-[56px] lg:text-[64px];
+  }
+
+  h2 {
+    @apply text-[32px] leading-[1.05] sm:text-[44px] lg:text-[48px];
+  }
+
+  h3 {
+    @apply text-[24px] leading-[1.1] sm:text-[32px];
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: #000000;
+  }
+
+  .dark input::placeholder,
+  .dark textarea::placeholder {
+    color: #FFFFFF;
+  }
+
+  ::selection {
+    @apply bg-black text-white dark:bg-white dark:text-black;
+  }
+}
+
+@layer components {
+  .raw-focus {
+    @apply focus:outline-none focus-visible:border-[5px] focus-visible:border-black dark:focus-visible:border-white;
+  }
+
+  .raw-container {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .raw-grid {
+    background-image:
+      linear-gradient(to right, rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .dark .raw-grid {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+  }
+}
