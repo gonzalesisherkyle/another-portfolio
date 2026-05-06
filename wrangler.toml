@@ -1,0 +1,8 @@
+name = "portfolio-client"
+pages_build_output_dir = "dist"
+compatibility_date = "2024-05-06"
+
+# Environment variables
+[vars]
+# You can define non-sensitive variables here
+# VITE_API_URL = "https://your-api.northflank.app/api"
