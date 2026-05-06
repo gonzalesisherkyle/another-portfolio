@@ -1,6 +1,8 @@
 import { NavLink, Outlet } from 'react-router-dom';
 import { Moon, Sun } from 'lucide-react';
 import { Button } from '../ui/Button';
+import { LoadingBlock } from '../ui/LoadingBlock';
+import { StateBlock } from '../ui/StateBlock';
 import { useTheme } from '../../contexts/ThemeContext';
 import { SiteProvider, useSite } from '../../contexts/SiteContext';
 
@@ -9,8 +11,26 @@ const navClass = ({ isActive }) =>
 
 function PublicLayoutShell() {
   const { theme, toggleTheme } = useTheme();
-  const { settings } = useSite();
-  const siteName = settings?.siteName || 'RAW.DEV';
+  const { settings, status } = useSite();
+  const siteName = settings?.siteName;
+
+  if (status === 'loading') {
+    return (
+      <div className="min-h-screen bg-white text-black dark:bg-black dark:text-white">
+        <LoadingBlock label="Loading portfolio" />
+      </div>
+    );
+  }
+
+  if (status === 'error' || !settings) {
+    return (
+      <div className="min-h-screen bg-white text-black dark:bg-black dark:text-white">
+        <main className="raw-container py-6">
+          <StateBlock title="Unable To Load" message="The portfolio content could not be loaded. Please try again shortly." />
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white text-black dark:bg-black dark:text-white">

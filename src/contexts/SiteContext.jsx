@@ -1,14 +1,14 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { getPublicData } from '../api/portfolio';
-import { fallbackExperience, fallbackProjects, fallbackSettings, fallbackSkills } from '../data/fallbackData';
+import { fallbackSettings } from '../data/fallbackData';
 
 const SiteContext = createContext(null);
 
 const fallbackData = {
-  settings: fallbackSettings,
-  projects: fallbackProjects,
-  skills: fallbackSkills,
-  experience: fallbackExperience
+  settings: null,
+  projects: [],
+  skills: [],
+  experience: []
 };
 
 export function SiteProvider({ children }) {
@@ -26,7 +26,7 @@ export function SiteProvider({ children }) {
         });
         setStatus('ready');
       })
-      .catch(() => setStatus('ready'));
+      .catch(() => setStatus('error'));
   }, []);
 
   const value = useMemo(() => ({ ...data, status }), [data, status]);

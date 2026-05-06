@@ -1,22 +1,28 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { getProjectBySlug } from '../../api/portfolio';
-import { fallbackProjects } from '../../data/fallbackData';
 import { Badge } from '../../components/ui/Badge';
 import { Button } from '../../components/ui/Button';
 import { StateBlock } from '../../components/ui/StateBlock';
+import { LoadingBlock } from '../../components/ui/LoadingBlock';
 
 export function ProjectDetails() {
   const { slug } = useParams();
-  const [project, setProject] = useState(() => fallbackProjects.find((item) => item.slug === slug));
+  const [project, setProject] = useState(null);
   const [status, setStatus] = useState('loading');
 
   useEffect(() => {
     getProjectBySlug(slug).then((data) => {
       setProject(data);
       setStatus('ready');
-    }).catch(() => setStatus('ready'));
+    }).catch(() => setStatus('error'));
   }, [slug]);
+
+  if (status === 'loading') return <LoadingBlock label="Loading project" />;
+
+  if (status === 'error') {
+    return <section className="raw-container py-6"><StateBlock title="Unable To Load" message="This project could not be loaded." /></section>;
+  }
 
   if (status === 'ready' && !project) {
     return <section className="raw-container py-6"><StateBlock title="Not Found" message="This case study is not published." /></section>;
