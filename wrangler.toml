@@ -1,8 +1,8 @@
 name = "portfolio-client"
 pages_build_output_dir = "dist"
-compatibility_date = "2024-05-06"
+compatibility_date = "2024-05-07"
 
 # Environment variables
 [vars]
 # You can define non-sensitive variables here
-VITE_API_URL = "https://p01--another-portfolio-backend--bqm4k86y76sk.code.run/api"
+VITE_API_URL = "https://portfolio-api.isher.dev/api"
