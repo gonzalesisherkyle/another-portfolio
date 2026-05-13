@@ -2,15 +2,22 @@ import { useEffect, useState } from 'react';
 import { adminApi } from '../../api/portfolio';
 import { Card } from '../../components/ui/Card';
 import { SectionHeader } from '../../components/ui/SectionHeader';
+import { LoadingBlock } from '../../components/ui/LoadingBlock';
 
 const defaults = { projects: 0, skills: 0, experience: 0, messages: 0, drafts: 0, featured: 0 };
 
 export function Dashboard() {
   const [stats, setStats] = useState(defaults);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    adminApi.stats().then(setStats).catch(() => {});
+    adminApi.stats()
+      .then(setStats)
+      .catch(() => {})
+      .finally(() => setLoading(false));
   }, []);
+
+  if (loading) return <LoadingBlock label="Calculating statistics" />;
 
   return (
     <main>

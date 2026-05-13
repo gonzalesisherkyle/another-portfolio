@@ -6,6 +6,7 @@ import { Card } from '../../components/ui/Card';
 import { Checkbox, Input, Textarea } from '../../components/ui/FormFields';
 import { Modal } from '../../components/ui/Modal';
 import { SectionHeader } from '../../components/ui/SectionHeader';
+import { LoadingBlock } from '../../components/ui/LoadingBlock';
 import { ExperienceBullets } from '../../components/ExperienceBullets';
 
 const configs = {
@@ -33,8 +34,15 @@ export function ResourceManager({ resource }) {
   const [form, setForm] = useState(config.empty);
   const [open, setOpen] = useState(false);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
 
-  const load = () => adminApi.list(resource).then(setItems).catch(() => setItems([]));
+  const load = () => {
+    setLoading(true);
+    return adminApi.list(resource)
+      .then(setItems)
+      .catch(() => setItems([]))
+      .finally(() => setLoading(false));
+  };
 
   useEffect(() => {
     load();
@@ -88,6 +96,10 @@ export function ResourceManager({ resource }) {
     await adminApi.remove(resource, id);
     load();
   };
+
+  if (loading && items.length === 0) {
+    return <LoadingBlock label={`Loading ${config.title}`} />;
+  }
 
   return (
     <main>

@@ -4,6 +4,7 @@ import { Button } from '../../components/ui/Button';
 import { Card } from '../../components/ui/Card';
 import { Input, Textarea } from '../../components/ui/FormFields';
 import { SectionHeader } from '../../components/ui/SectionHeader';
+import { LoadingBlock } from '../../components/ui/LoadingBlock';
 
 const empty = {
   siteName: '',
@@ -21,6 +22,7 @@ const empty = {
 export function Settings() {
   const [form, setForm] = useState(empty);
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     adminApi.settings().then((data) => {
@@ -29,7 +31,9 @@ export function Settings() {
         ...data,
         socialsText: (data.socials || []).map((item) => `${item.label}|${item.url}`).join('\n')
       });
-    }).catch(() => {});
+    })
+    .catch(() => {})
+    .finally(() => setLoading(false));
   }, []);
 
   const update = (event) => setForm((current) => ({ ...current, [event.target.name]: event.target.value }));
@@ -47,6 +51,8 @@ export function Settings() {
     await adminApi.updateSettings(payload);
     setMessage('Settings saved.');
   };
+
+  if (loading) return <LoadingBlock label="Fetching settings" />;
 
   return (
     <main>

@@ -4,15 +4,27 @@ import { Badge } from '../../components/ui/Badge';
 import { Button } from '../../components/ui/Button';
 import { Card } from '../../components/ui/Card';
 import { SectionHeader } from '../../components/ui/SectionHeader';
+import { LoadingBlock } from '../../components/ui/LoadingBlock';
 
 export function Messages() {
   const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const load = () => adminApi.list('messages').then(setMessages).catch(() => setMessages([]));
+  const load = () => {
+    setLoading(true);
+    return adminApi.list('messages')
+      .then(setMessages)
+      .catch(() => setMessages([]))
+      .finally(() => setLoading(false));
+  };
 
   useEffect(() => {
     load();
   }, []);
+
+  if (loading && messages.length === 0) {
+    return <LoadingBlock label="Retrieving messages" />;
+  }
 
   return (
     <main>
